@@ -14,12 +14,13 @@ class MPC:
         self.nvar = self.nx + self.nu
         self.diffDrive = DiffDriveModel()
 
-        self.Q  = [1.0, 1.0, 0.1]       # state weights[x, y, angle, v]
-        self.Qf = [2.0, 2.0, 0.5]       # terminal state weights
-        self.R  = [0.1, 0.01]          # input weights[v, w]
+        self.Q  = [1.0, 1.0, 1.0]       # state weights[x, y, angle]
+        self.Qf = [2.0, 2.0, 10]       # terminal state weights
+        self.R  = [0.2, 0.01]          # input weights[v, w]
+        self.ANGLE_W = 12.8              # to target angle weight
 
         max_v_input = 1
-        max_w_input = 0.5
+        max_w_input = 0.8
 
         w = [] # contain optimal variable
         w0 = [] # contain initial optimal variable
@@ -115,6 +116,8 @@ class MPC:
         # state
         for i in range(self.nx):
             cost += 0.5 * self.Q[i] * (x[i] - x_ref[i])**2
+        diff_angle = atan2(x_ref[1]-x[1], x_ref[0]-x[0]) - x[2]
+        cost += 0.5 * self.ANGLE_W * diff_angle**2
         
         # input
         #for i in range(self.nu):

@@ -29,7 +29,7 @@ def plot_robot(x, y, yaw, robot_radius):  # pragma: no cover
 
 def main():
     x = np.array([0.0, 0.0, 0.0])
-    x_ref = np.array([4.0, 2.0, 0.0])   # target
+    x_ref = np.array([3.0, 3.0, 0.0])   # target
     xs = []
     us = []
     diffDrive = DiffDriveModel()
