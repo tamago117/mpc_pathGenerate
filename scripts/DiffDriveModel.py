@@ -2,10 +2,7 @@ from casadi import *
 
 class DiffDriveModel:
     def __init__(self):
-        self.mc = 2.0 #cart mass
-        self.mp = 0.2 #pole mass
-        self.l = 0.5 #pole length
-        self.ga = 9.81 #gravity constant
+        pass
 
     def dynamics(self, x, u):
         x_pos = x[0] # x position[m]

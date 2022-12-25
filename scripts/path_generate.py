@@ -29,7 +29,7 @@ def plot_robot(x, y, yaw, robot_radius):  # pragma: no cover
 
 def main():
     x = np.array([0.0, 0.0, 0.0])
-    x_ref = np.array([4.0, 2.0, -math.pi/2])   # target
+    x_ref = np.array([4.0, 2.0, 0.0])   # target
     xs = []
     us = []
     diffDrive = DiffDriveModel()
@@ -46,6 +46,8 @@ def main():
         print(str(math.floor(1/(time.time() - current_time))) + "hz")
         xs.append(x)
         us.append(u)
+        xs1 = [x[0] for x in xs]
+        xs2 = [x[1] for x in xs]
         x1 = x + sampling_time * np.array(diffDrive.dynamics(x, u))
         x = x1
 
@@ -55,6 +57,7 @@ def main():
             'key_release_event',
             lambda event: [exit(0) if event.key == 'escape' else None])
         #plt.plot(predicted_trajectory[:, 0], predicted_trajectory[:, 1], "-g")
+        plt.plot(xs1, xs2)
         plt.plot(x[0], x[1], "xr")
         plt.plot(x_ref[0], x_ref[1], "xb")
         plot_arrow(x_ref[0], x_ref[1], x_ref[2])
@@ -69,7 +72,7 @@ def main():
         plt.grid(True)
         plt.pause(0.0001)
 
-        if sqrt((x_ref[0]-x[0])**2+(x_ref[1]-x[1])**2)<0.05:
+        if math.sqrt((x_ref[0]-x[0])**2+(x_ref[1]-x[1])**2)<0.05:
             break
 
 if __name__ == '__main__':
